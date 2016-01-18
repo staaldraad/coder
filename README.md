@@ -5,6 +5,7 @@ A small go application to encode and decode various formats. Allows both STDIN a
 
 Usage
 ----
+```
 Usage of ./coder:
   -a    Try all methods encoding/decoding
   -b    Do Base64 encoding/decoding
@@ -20,6 +21,7 @@ Usage of ./coder:
         Format Hex encoding as 0 - 00 (Default)
         1 - 0x00
         2 - \x00
+```
 
 Examples
 ----
@@ -28,6 +30,7 @@ Examples
 echo -n "' or '1'='1" | coder -u -e
 %27+or+%271%27%3D%271
 ```
+
 * URL decode from input string
 ```
 coder -u -i '%27+or+%271%27%3D%271'
