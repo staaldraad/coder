@@ -31,22 +31,24 @@ echo -n "' or '1'='1" | coder -u -e
 * URL decode from input string
 ```
 coder -u -i '%27+or+%271%27%3D%271'
-
 ' or '1'='1
 ```
+
 * HEX encode
 ```
 echo -n "string" | coder -x -e
-
 737472696e67
 ```
+
 * HEX encode with python formatting
+
 ```
 echo -n "string" | coder -x -e -xf 2
-
 \x73\x74\x72\x69\x6e\x67
 ```
+
 * HEX dump
+
 ```
  cat /tmp/file.bin | coder -xd
 
