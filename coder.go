@@ -6,6 +6,7 @@ import (
     "flag"
     "os"
     "io/ioutil"
+    "html"
     "encoding/base64"
     "encoding/hex"
 )
@@ -24,6 +25,16 @@ func urlEncode(input string) {
     fmt.Printf("%s\n",enc)
 }
 
+func htmlEncode(input string) {
+    enc := html.EscapeString(input)
+    fmt.Printf("%s\n",enc)
+}
+
+func htmlDecode(input string) {
+    enc := html.EscapeString(input)
+    fmt.Printf("%s\n",enc)
+}
+
 func hexDecode(input string) {
     dec,err := hex.DecodeString(input)
     if err != nil {
@@ -36,9 +47,9 @@ func hexDecode(input string) {
 func hexEncode(input string, format int) {
     enc := hex.EncodeToString([]byte(input))
     if format > 0 {
-        for i := 0; i < len(enc); i+=2 { 
+        for i := 0; i < len(enc); i+=2 {
             switch format {
-                case 1 : fmt.Printf("0x%s",enc[i:i+2])
+                case 1 : fmt.Printf("0x%s,",enc[i:i+2])
                 case 2 : fmt.Printf("\\x%s",enc[i:i+2])
             }
         }
@@ -68,6 +79,7 @@ func base64Encode(input string) {
 
 func main(){
     urlFunc := flag.Bool("u",false,"Do URL encoding/decoding")
+    htmlFunc := flag.Bool("ht",false,"Do HTML encoding/decoding")
     base64Func := flag.Bool("b",false,"Do Base64 encoding/decoding")
     hexFunc := flag.Bool("x",false,"Do Hex encoding/decoding")
     hexFormat := flag.Int("xf",0,"Format Hex encoding as 0 - 00 (Default)\n 1 - 0x00 \n2 - \\x00")
@@ -83,7 +95,7 @@ func main(){
         *decodeFunc = false
     }
 
-    if *inputString == "" && (*base64Func || *hexFunc || *hexDump || *urlFunc) {
+    if *inputString == "" && (*base64Func || *hexFunc || *hexDump || *urlFunc || *htmlFunc || *allFunc) {
         input, err := ioutil.ReadAll(os.Stdin)
 
         if err != nil {
@@ -97,6 +109,7 @@ func main(){
     if *allFunc == true {
         *urlFunc = true
         *hexFunc = true
+        *htmlFunc = true
         *base64Func = true
     }
 
@@ -107,6 +120,14 @@ func main(){
             urlEncode(*inputString)
         }
     }
+    if *htmlFunc == true {
+        if *decodeFunc == true {
+            htmlDecode(*inputString)
+        }else {
+            htmlEncode(*inputString)
+        }
+    }
+
     if *base64Func == true {
         if *decodeFunc == true {
             base64Decode(*inputString)
